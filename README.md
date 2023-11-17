@@ -2,7 +2,7 @@
 An extension to replace the bad words with the funny, lovely words to make everyone happy when they are online
 
 # Ông Giáo Vui Tính
-Có bao giờ bạn đang vui tươi yêu đời, bỗng dưng một hôm đọc phải một comment thô tục, xúc phạm đến những người mà bạn kính trọng?
+Có bao giờ bạn đang vui tươi yêu đời, bỗng dưng đọc phải một comment thô tục, xúc phạm đến những người mà bạn kính trọng?
 Điều đó làm ảnh hưởng đến càm xúc của bạn trong một thời gian dài? It's soo bad! Sẽ ra sao nếu bạn không bao giờ nhìn thấy những comments như vậy? 
 Bạn chẳng cần phí phạm thời gian, sức khỏe để nhớ đến thứ dơ bẩn đó.
 
