@@ -1,6 +1,8 @@
 # HappyTeacher
 An extension to replace the bad words to funny, lovely words.
 
+# Ông Giáo Vui Tính
+
 Một dự án nhỏ để giúp mọi người hạn chế nhìn thấy những từ ngữ xấu, bạo lực, thô tục bằng cách thay thế những từ thô tục và đầy bạo lực bằng những từ ngữ vui tươi yêu đời.
 VD:
 Cái đồ điên => Bạn thật dễ thương
