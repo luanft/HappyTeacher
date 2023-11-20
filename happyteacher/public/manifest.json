@@ -1,0 +1,23 @@
+{
+  "name": "Happy teacher",
+  "description": "Happy Teacher",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+      "default_popup": "index.html",
+      "default_title": "Cài đặt"
+  },
+
+  "icons": {
+      "16": "icon24.png",
+      "48": "icon48.png",
+      "128": "icon192.png"
+  },
+  "permissions": ["favicon", "activeTab"],
+  "content_scripts": [
+    {
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["./static/js/content.js"]
+    }
+ ]
+}

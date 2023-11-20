@@ -1,0 +1,16 @@
+{
+    "env": { "webextensions": true },
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "extends": "react-app",
+    "rules": {
+      "no-unused-vars": [
+        "warn",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_"
+        }
+      ]
+    }
+}
