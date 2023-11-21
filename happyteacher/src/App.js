@@ -51,6 +51,12 @@ function App() {
               <option>Thay thế bằng ***</option>
             </select>
           </div>
+          <button onClick={() => {
+            // chrome.runtime.sendMessage({action: "download"});
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+              chrome.tabs.sendMessage(tabs[0].id, {action: "download"});  
+            });
+          }}>Download</button>
         </div>
       </div>
     </div>
