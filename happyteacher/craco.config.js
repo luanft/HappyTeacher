@@ -26,23 +26,23 @@ module.exports = {
                 },
                 resolve: {
                     ...webpackConfig.resolve,
-                    fallback: {
-                        "path": require.resolve("path-browserify"), 
-                        'fs': false,
-                        "util": false,
-                        "url": false,
-                        "aws-sdk": false,
-                        "child_process": false,
-                        "stream": false,
-                        "assert": false,
-                        "os": false,
-                        "http": false,
-                        "https": false,
-                        "crypto": false,
-                        "querystring": false,
-                        "zlib": false,
-                        "buffer": false
-                    }
+                    // fallback: {
+                    //     "path": require.resolve("path-browserify"),
+                    //     'fs': false,
+                    //     "util": false,
+                    //     "url": false,
+                    //     "aws-sdk": false,
+                    //     "child_process": false,
+                    //     "stream": false,
+                    //     "assert": false,
+                    //     "os": false,
+                    //     "http": false,
+                    //     "https": false,
+                    //     "crypto": false,
+                    //     "querystring": false,
+                    //     "zlib": false,
+                    //     "buffer": false
+                    // }
                 },
                 optimization: {
                     ...webpackConfig.optimization,
