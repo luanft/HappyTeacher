@@ -2,7 +2,6 @@
 // import BAD_WORDS from "./badwords";
 
 // const addedComments = {};
-let dataKeys = [];
 let totalCmts = 0;
 function replaceBadWords() {
     let data = [];
@@ -11,10 +10,13 @@ function replaceBadWords() {
     queue.push(document.body);
     while (queue.length > 0) {
         const node = queue.pop();
+        if (node?.xChecked) {
+            continue;
+        }
         switch (node.nodeType) {
             case Node.TEXT_NODE:
-                
                 const nodeValue = node.nodeValue.toString().trim();
+                node.xChecked = true;
                 if (nodeValue) {
                     data.push(nodeValue + "\n");
                 }
@@ -22,8 +24,8 @@ function replaceBadWords() {
         
             case Node.ELEMENT_NODE:
                 if (node.childNodes.length > 0 && node.children.length === 0) {
-                    if (node?.setAttribute) {
-                        node?.setAttribute('data-x-checked', true);
+                    if (node?.xChecked) {
+                        node.xChecked = true;
                     }
                 }
                 for(let i = 0; i < node.childNodes.length; i++) {
@@ -33,13 +35,15 @@ function replaceBadWords() {
                         continue;
                     }
 
-                    if (obj?.getAttribute('data-x-checked')) {
-                        console.log("Ignored checked node");
-                        continue;
-                    }
-
                     if (obj.tagName === "SPAN") {
-                        obj?.setAttribute('data-x-checked', true);
+                       
+                        // const mobj = /View\smore\scomments/i;
+                        // const isFb = window.location.host.includes('facebook');
+                        // obj.click();
+                        if (obj.children.length === 0) {
+                            obj.xChecked = true;
+                            data.push(obj.textContent);
+                        }
                     }
                     queue.push(obj);
                 }
@@ -54,18 +58,27 @@ function replaceBadWords() {
 }
 
 window.onload = () => {
-    console.log("page is fully loaded");
-    const key = getNewKey();
-    dataKeys.push(key);
-    localStorage.setItem(key, JSON.stringify(replaceBadWords()));
-    setInterval(() => {
-        const key = getNewKey();
-        dataKeys.push(key);
-        localStorage.setItem(key, JSON.stringify(replaceBadWords()));
-    }, 10000);
+    console.log("Page is fully loaded");
+    check();
+    const timer = setInterval(() => {
+        check();
+        if (totalCmts > 2000000) {
+            createDownloadData();
+            totalCmts = 0;
+            clearInterval(timer);
+        }
+    }, 15000);
 };
 
 
+function check() {
+    const key = getNewKey();
+    const rows = replaceBadWords();
+    if (rows.length > 0) {
+        localStorage.setItem(key, JSON.stringify(rows));
+    }
+    
+}
 
 function getNewKey() {
     const currentdate = new Date();
@@ -80,21 +93,20 @@ function getNewKey() {
 
 function createDownloadData() {
     console.log("Create download data...");
-    const processed = {};
     let allRows = [];
-    for(let key of dataKeys) {
+    for (let [key, value] of Object.entries(localStorage)) {
         console.log(key);
         if (key.startsWith('data_x_')) {
-            const rows = JSON.parse(localStorage.getItem(key));
-            for(let line of rows) {
-                if (processed[line]) {
-                    continue;
+            try {
+                const rows = JSON.parse(value);
+                for(let line of rows) {
+                    allRows.push(line);
                 }
-                processed[line] = true;
-                allRows.push(line);
+            } catch (error) {
+                console.log(error);
+                localStorage.removeItem(key);
             }
         }
-        
     }
 
     const currentdate = new Date();
