@@ -1,12 +1,19 @@
+import json
 
-# from pyvi import ViTokenizer, ViPosTagger
+with open(r"C:\projects\HappyTeacher\model\fb_comment_10m", encoding='utf8') as f:
+    with open ('only_comment', mode='w', encoding='utf8') as o:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            obj = json.loads(line)
+            content: str = obj.get('content')
+            tokens = content.split(" ")
+            for bb in ["cặc", "lồn", "má mày", "đụ", "đéo"]:
+                if bb in tokens:
+                    print(content)
+                    break
 
-# xx = ViTokenizer.tokenize(u"Trường đại học bách khoa hà nội")
-# print('xx')
-# print(xx)
+            # o.write(obj.get('content'))
 
-# yy = ViPosTagger.postagging(ViTokenizer.tokenize(u"Trường đại học Bách Khoa Hà Nội"))
-# print('yy')
-# print(yy)
 
-# https://github.com/php1301/vn-fuck-words/blob/master/bad_words.json
