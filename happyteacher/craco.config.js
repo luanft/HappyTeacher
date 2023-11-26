@@ -17,8 +17,7 @@ module.exports = {
                 ...webpackConfig,
                 entry: {
                     main: [env === 'development' && require.resolve('react-dev-utils/webpackHotDevClient'),paths.appIndexJs].filter(Boolean),
-                    content: './src/filters/simple.js',
-                    // C:\projects\HappyTeacher\happyteacher\src\filters\simple.js
+                    content: './src/filters/teacher.js',
                 },
                 output: {
                     ...webpackConfig.output,

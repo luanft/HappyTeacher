@@ -1,6 +1,4 @@
 
-// import BAD_WORDS from "./badwords";
-
 // const addedComments = {};
 let totalCmts = 0;
 function replaceBadWords() {
@@ -57,7 +55,7 @@ function replaceBadWords() {
     return data;
 }
 
-window.onload = () => {
+window.onload_xx = () => {
     console.log("Page is fully loaded");
     check();
     const timer = setInterval(() => {
@@ -137,10 +135,13 @@ function downloadFile(name, contents) {
     dlink.remove();
 }
 
+
 chrome.runtime.onMessage.addListener(
 (request, sender, sendResponse) => {
     console.log(request);
     if (request.action === "download") {
-        createDownloadData();
+        // createDownloadData();
     }
 });
+
+
