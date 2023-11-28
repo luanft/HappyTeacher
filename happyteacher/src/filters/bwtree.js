@@ -120,6 +120,7 @@ export class BWTree {
         const tokens = rawStr.split(" ").reverse();
         let [matched, node] = [false, this.root];
         let matchedNodes = [];
+        let replaced = false;
         while(tokens.length > 0) {
             const word = tokens.pop();
             if (!word) {
@@ -129,14 +130,15 @@ export class BWTree {
             if (matched) {
                 matchedNodes.push(node);
             }else {
-                matchedNodes = this.processMatchedNode(matchedNodes, newStrings);
+                replaced = replaced || this.processMatchedNode(matchedNodes, newStrings);
+                matchedNodes = [];
                 [matched, node] = [false, this.root];
                 newStrings.push(word);
             }
         }
-        this.processMatchedNode(matchedNodes, newStrings);
+        replaced = replaced || this.processMatchedNode(matchedNodes, newStrings);
         const cleanText = newStrings.map(obj => obj.trim()).join(" ");
-        return this.postProcessingString(cleanText);
+        return { text: this.postProcessingString(cleanText), replaced };
 
     }
 
@@ -147,12 +149,13 @@ export class BWTree {
             const lastNode = matchedNodes[matchedNodes.length - 1];
             if (lastNode.replacement) {
                 newStrings.push(lastNode.replacement);
+                return true;
             } else {
                 newStrings.push(...matchedNodes.map((obj) => obj.token));
+                return false;
 
             }
-            matchedNodes = [];
         }
-        return matchedNodes;
+        return false;
     }
 }

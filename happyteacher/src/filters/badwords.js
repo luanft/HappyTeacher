@@ -2697,7 +2697,8 @@ function isInvalid(sentence) {
         'con bẩn', 'vãi chết', 'vãi mày', 'như tởm', 'con tởm', 'cái tởm',
         'như địt', 'xinh nứng', 'đãng mày', 'niên buồi',
         'nữ buồi', 'nhìn buồi', 'con buồi', 'nhỏ buồi',
-        'nữ vô', 'như vô', 'cái vô', 'con vô', 'nhỏ vô'
+        'nữ vô', 'như vô', 'cái vô', 'con vô', 'nhỏ vô',
+        'cái phản', 'như phản'
 
     ];
     for(const big of bigrams) {
@@ -2709,10 +2710,12 @@ function isInvalid(sentence) {
 }
 
 export function getBadSentences() {
-    const prefixes = ['', 'đồ', 'con', 'cái', 'như', 'thanh niên', 'nữ', 'nhìn', 'con nhỏ'];
-    const endfixes = ['', 'mày', 'má mày', 'mày à', 'chết mẹ', 'to', 'bự', 'rộng'];
+    console.clear();
+    const prefixes = ['', 'đồ', 'con', 'cái', 'như', 'thanh niên', 'nữ', 'nhìn', 'nhìn mà', 'thèm', 'ưng', 'chê', 'con nhỏ', 'thích'];
+    const endfixes = ['', 'mày', 'má mày', 'mày à', 'chết mẹ', 'to', 'bự', 'rộng', 'm', 'mm', 'k', 'b'];
 
     const replacements = [];
+    const bigrams = {};
     for(let [badWord, goodSentence] of Object.entries(BAD_WORDS) ) {
         badWord = badWord.replace('_', ' ').replace('_', ' ').replace('_', ' ').trim();
         for (const prefix of prefixes) {
@@ -2721,11 +2724,35 @@ export function getBadSentences() {
                 if (isInvalid(badSentence)) {
                     continue;
                 }
+                const badInTokens = badSentence.split(' ');
+                bigrams[badInTokens.slice(0, 3).join(' ')] = badInTokens.slice(badInTokens.length - 3, badInTokens.length).join(' ');
                 replacements.push([badSentence, goodSentence]);
             }
         }
 
     };
+    const db = [];
+    for(const [preFix, endFix] of Object.entries(bigrams)) {
+        console.log(preFix, ' ', endFix);
+        db.push(preFix + ', ' + endFix + '\n');
+    }
+
+    downloadFile('preend', db);
     return replacements;
 }
 
+function downloadFile(name, contents) {
+    const blob = new Blob(contents, {type: 'text/plain;charset=utf-8'});
+    const dlink = document.createElement('a');
+    dlink.download = name;
+    dlink.href = window.URL.createObjectURL(blob);
+    dlink.onclick = function() {
+        // revokeObjectURL needs a delay to work properly
+        var that = this;
+        setTimeout(function() {
+            window.URL.revokeObjectURL(that.href);
+        }, 1500);
+    };
+    dlink.click();
+    dlink.remove();
+}

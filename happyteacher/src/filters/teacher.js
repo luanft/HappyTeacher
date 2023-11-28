@@ -15,8 +15,11 @@ function replaceBadWords(rule) {
                 const nodeValue = node.nodeValue.toString();
                 node.xChecked = true;
                 if (nodeValue) {
-                    const newValue = rule.clean(nodeValue);
-                    node.nodeValue = `${nodeValue}`;
+                    const { text, replaced } = rule.clean(nodeValue);
+                    if (replaced) {
+                        node.nodeValue = `[1fontWeight ] ${text}`;
+                        node.style.fontWeight = '900';
+                    }
                     // if (newValue !== nodeValue) {
                     //     node.nodeValue = `${nodeValue} => ${rule.clean(nodeValue)}`;
                     // } else {
@@ -54,7 +57,7 @@ function replaceBadWords(rule) {
 }
 
 window.onload = () => {
-    console.clear();
+    // console.clear();
     console.log("Page is fully loaded");
     replaceBadWords(BadWordTree);
     setInterval(() => {
